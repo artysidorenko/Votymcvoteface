@@ -19,4 +19,6 @@ export default function startServer () {
     // as we are accepting ANY actions from ANY client
     socket.on('action', store.dispatch.bind(store))
   })
+
+  console.log('Server started')
 }

@@ -20,9 +20,9 @@ export function nextPair (state) {
   }
 }
 
-export function vote (voteState, entry) {
+export function vote (voteState, selection) {
   return voteState.updateIn(
-    ['results', entry],
+    ['results', selection],
     0,
     results => results + 1
   )

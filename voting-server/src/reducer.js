@@ -7,7 +7,7 @@ export default function reducer (state = INITIAL_STATE, action) {
     case 'NEXT':
       return nextPair(state)
     case 'VOTE':
-      return state.update('vote', voteState => vote(voteState, action.vote))
+      return state.update('vote', voteState => vote(voteState, action.selection))
   }
   return state
 }

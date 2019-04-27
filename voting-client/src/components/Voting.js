@@ -2,18 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { connect } from 'react-redux'
+import { fromJS } from 'immutable'
 
 import Vote from './Vote'
 import Winner from './Winner'
+import * as actionCreators from '../action_creators'
 
 export class Voting extends React.PureComponent {
-  constructor(props) {
-    super(props)
-  }
-  
   static propTypes = {
     winner: PropTypes.string,
-    pair: ImmutablePropTypes.list
+    hasVoted: PropTypes.string,
+    pair: ImmutablePropTypes.list,
+    vote: PropTypes.func
   }
 
   render () {
@@ -32,9 +32,13 @@ export class Voting extends React.PureComponent {
 
 function mapStateToProps (state) {
   return {
-    pair: state.getIn(['vote', 'pair']),
+    pair: fromJS(state.getIn(['vote', 'pair'])),
+    hasVoted: state.get('hasVoted'),
     winner: state.get('winner')
   }
 }
 
-export const VotingContainer = connect(mapStateToProps)(Voting)
+export const VotingContainer = connect(
+  mapStateToProps,
+  actionCreators
+)(Voting)

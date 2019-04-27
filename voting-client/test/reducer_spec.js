@@ -67,4 +67,66 @@ describe('reducer', () => {
     }))
   })
 
+  it('handles VOTE and sets hasVoted variable', () => {
+    const state = fromJS({
+      vote: {
+        pair: ['Romania', 'United Kingdom'],
+        results: { Romania: 1 }
+      }
+    })
+    const action = { type: 'VOTE', selection: 'Romania' }
+    const nextState = reducer(state, action)
+
+    expect(nextState).to.equal(fromJS({
+      vote: {
+        pair: ['Romania', 'United Kingdom'],
+        results: { Romania: 1 }
+      },
+      hasVoted: 'Romania'
+    }))
+  })
+
+  it('ignores VOTE on invalid entry', () => {
+    const state = fromJS({
+      vote: {
+        pair: ['Romania', 'United Kingdom'],
+        results: { Romania: 1 }
+      }
+    });
+    const action = { type: 'VOTE', selection: 'SomeFakeCountry' };
+    const nextState = reducer(state, action);
+
+    expect(nextState).to.equal(fromJS({
+      vote: {
+        pair: ['Romania', 'United Kingdom'],
+        results: { Romania: 1 }
+      }
+    }));
+  })
+
+  it('removes hasVoted on SET_STATE on pair change', () => {
+    const initialState = fromJS({
+      vote: {
+        pair: ['Romania', 'United Kingdom'],
+        results: { Romania: 1 }
+      },
+      hasVoted: 'Romania'
+    })
+    const action = {
+      type: 'SET_STATE',
+      state: {
+        vote: {
+          pair: ['France', 'Israel']
+        }
+      }
+    }
+    const nextState = reducer(initialState, action);
+
+    expect(nextState).to.equal(fromJS({
+      vote: {
+        pair: ['France', 'Israel']
+      }
+    }))
+  })
+
 })
