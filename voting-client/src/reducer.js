@@ -26,7 +26,10 @@ function vote(state, selection) {
 function resetVote(state) {
   const hasVoted = state.get('hasVoted')
   const currentPair = state.getIn(['vote', 'pair'])
+  const remainingEntries = state.get('entries')
   if (hasVoted && !currentPair.includes(hasVoted)) {
+    return state.remove('hasVoted')
+  } else if (remainingEntries && remainingEntries.length === 0) {
     return state.remove('hasVoted')
   } else return state
 }

@@ -5,12 +5,20 @@ export function setEntries (state, entries) {
 }
 
 export function nextPair (state) {
+  console.log('next input state:\n', state)
   const entries = state.get('entries').concat(getWinners(state.get('vote')))
   if (entries.size === 1) {
     return state.remove('vote')
       .remove('entries')
       .set('winner', entries.first())
   } else {
+    console.log('next output state w/o winner:\n', state.merge({
+      vote: Map({
+        pair: entries.take(2)
+      }),
+      entries: entries.skip(2)
+    }))
+
     return state.merge({
       vote: Map({
         pair: entries.take(2)
@@ -21,6 +29,11 @@ export function nextPair (state) {
 }
 
 export function vote (voteState, selection) {
+  console.log('vote output state:\n', voteState.updateIn(
+    ['results', selection],
+    0,
+    results => results + 1
+  ))
   return voteState.updateIn(
     ['results', selection],
     0,

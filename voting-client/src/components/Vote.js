@@ -4,10 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 
 export default class Vote extends React.PureComponent {
   static propTypes = {
-    pair: PropTypes.oneOfType([
-      ImmutablePropTypes.list,
-      PropTypes.array
-    ]),
+    pair: ImmutablePropTypes.list,
     hasVoted: PropTypes.string,
     vote: PropTypes.func
   }
@@ -23,7 +20,6 @@ export default class Vote extends React.PureComponent {
   }
 
   render () {
-    console.log(this.props)
     return (
       <div className="voting">
         {this.getPair().map(entry =>
