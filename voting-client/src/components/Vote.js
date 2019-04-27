@@ -1,18 +1,25 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import ImmutablePropTypes from 'react-immutable-proptypes'
 
 export default class Vote extends React.PureComponent {
+  static propTypes = {
+    pair: ImmutablePropTypes.list,
+    hasVoted: PropTypes.func,
+    vote: PropTypes.func
+  }
 
-  getPair() {
+  getPair () {
     return this.props.pair || []
   }
-  isDisabled() {
+  isDisabled () {
     return !!this.props.hasVoted
   }
-  hasVotedFor(entry) {
+  hasVotedFor (entry) {
     return this.props.hasVoted === entry
   }
 
-  render() {
+  render () {
     return (
       <div className="voting">
         {this.getPair().map(entry =>

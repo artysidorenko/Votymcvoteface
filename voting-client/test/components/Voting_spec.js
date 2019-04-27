@@ -4,12 +4,13 @@ import ReactDOM from 'react-dom'
 import {
   renderIntoDocument,
   scryRenderedDOMComponentsWithTag,
+  findRenderedDOMComponentWithClass,
   Simulate
 } from 'react-dom/test-utils'
 import { expect } from 'chai'
 import { List } from 'immutable'
 
-import Voting from '../../src/components/Voting'
+import { Voting } from '../../src/components/Voting'
 
 describe('Voting', () => {
 
@@ -76,7 +77,7 @@ describe('Voting', () => {
     const buttons = scryRenderedDOMComponentsWithTag(component, 'button')
     expect(buttons.length).to.equal(0)
 
-    const winner = ReactDOM.findDOMNode(component.refs.winner)
+    const winner = findRenderedDOMComponentWithClass(component, 'winner')
     expect(winner).to.be.ok
     expect(winner.textContent).to.contain('Romania')
 
@@ -85,6 +86,8 @@ describe('Voting', () => {
   it('behaves as a pure component, NOT re-rendering with mutated props', () => {
     const pair = ['Romania', 'United Kingdom']
     const container = document.createElement('div')
+    // In future should replace with react test renderer?
+    // eslint-disable-next-line react/no-render-return-value
     let component = ReactDOM.render(
       <Voting pair={pair} />,
       container
@@ -105,6 +108,8 @@ describe('Voting', () => {
   it('behaves as a pure component, re-rendering with NEW props', () => {
     const pair = List.of('Romania', 'United Kingdom')
     const container = document.createElement('div')
+    // In future should replace with react test renderer?
+    // eslint-disable-next-line react/no-render-return-value
     let component = ReactDOM.render(
       <Voting pair={pair} />,
       container
