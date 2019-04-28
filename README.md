@@ -11,6 +11,8 @@ mini-css-extract-plugin extracts our CSS out of the JavaScript bundle into a sep
 
 HEROKU DEPLOYMENT:
 
+need to set heroku config:set NPM_CONFIG_PRODUCTION=false
+
 2 separate build:
 1 Server git subtree push --prefix voting-server heroku/votymcvoteface master
 2 Client git subtree push --prefix voting-client heroku/votymcclient master

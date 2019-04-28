@@ -6,9 +6,14 @@
   "scripts": {
     "test": "mocha --require @babel/register --require ./test/test_helper.js --require ignore-styles \"test/**/*@(.js|.jsx)\"",
     "test:watch": "npm test -- --watch",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js",
-    "build": "cross-env NODE_ENV=development webpack --config webpack.config.js",
-    "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js",
+    "build:local": "cross-env NODE_ENV=development webpack --config webpack.config.js",
+    "build:prodlocal": "cross-env NODE_ENV=production webpack --config webpack.config.js",
+    "start": "serve -s build",
+    "build": "react-scripts build",
+    "test:scripts": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
   },
   "keywords": [],
   "author": "",
@@ -61,10 +66,10 @@
     ]
   },
   "dependencies": {
-    "cross-env": "^5.2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
+    "cross-env": "^5.2.0",
     "i": "^0.3.6",
     "immutable": "^4.0.0-rc.12",
     "npm": "^6.9.0",
@@ -77,6 +82,7 @@
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "redux": "^4.0.1",
+    "serve": "^11.0.0",
     "socket.io-client": "^2.2.0",
     "uuid": "^3.3.2"
   }
