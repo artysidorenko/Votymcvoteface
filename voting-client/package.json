@@ -9,11 +9,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js",
     "build:local": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "build:prodlocal": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "start": "serve -s build",
-    "build": "react-scripts build",
-    "test:scripts": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "npm run build"
+    "start": "serve -s build"
   },
   "keywords": [],
   "author": "",
