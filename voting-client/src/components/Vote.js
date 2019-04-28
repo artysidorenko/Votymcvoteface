@@ -21,19 +21,22 @@ export default class Vote extends React.PureComponent {
 
   render () {
     return (
-      <div className={style.voting}>
-        Round: {this.props.round}
-        {this.getPair().map(entry =>
-          <button
-            key={entry}
-            onClick={() => this.props.vote(entry)}
-          >
-            <h1>{entry}</h1>
-            {this.hasVotedFor(entry) && (
-              <div className="label">Voted</div>
-            )}
-          </button>
-        )}
+      <div className={style.voting__container}>
+        <h4 className={style.voting__heading}>Round {this.props.round}</h4>
+        <div className={style.voting__btnBox}>
+          {this.getPair().map(entry =>
+            <button
+              className={style.voting__button}
+              key={entry}
+              onClick={() => this.props.vote(entry)}
+            >
+              <h1>{entry}</h1>
+              {this.hasVotedFor(entry) && (
+                <div className="label">Voted</div>
+              )}
+            </button>
+          )}
+        </div>
       </div>
     )
   }

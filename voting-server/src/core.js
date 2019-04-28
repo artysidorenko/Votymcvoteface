@@ -21,14 +21,15 @@ export function nextPair (state) {
   }
 }
 
-export function resetVote (state) {
+export function resetVote () {
   const entries = List(require('../entries.json'))
   return Map({
     vote: Map({
       pair: entries.take(2),
       round: 1
     }),
-    entries: entries.skip(2)
+    entries: entries.skip(2),
+    winner: null
   })
 }
 

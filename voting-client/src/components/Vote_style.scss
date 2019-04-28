@@ -1,7 +1,50 @@
-.voting {
-  background-color: blue;
+@import url("https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Lobster+Two:100,300,400");
+
+.voting__container {
+  padding-bottom: 10px;
+
+  .voting__heading {
+    font-size: 1.5em;
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .voting__btnBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    .voting__button {
+      font-family: 'Lobster Two', sans-serif;
+      font-size: 0.7em;
+      border-radius: 10px;
+      width: 250px;
+
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      margin: 4px 2px;
+      cursor: pointer;
+
+      background-color: white; 
+      color: black; 
+      border: 2px solid brown;
+    }
+
+    .voting__button:hover {
+      background-color: brown;
+      color: white;
+    }
+  }
 }
 
-button {
-    border-radius: 10px;
+@media only screen and (max-width: 700px) {
+  .voting__container {
+    .voting__btnBox {
+      flex-direction: column;
+      align-items: center;
+    }
   }
+   
+}

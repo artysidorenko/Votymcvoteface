@@ -22,7 +22,7 @@ export class Voting extends React.PureComponent {
     return (
       <div>
         {this.props.winner && 
-          <Winner winner={this.props.winner}/>
+          <Winner winner={this.props.winner} />
         }
         {(!this.props.winner) &&
           <Vote {...this.props} />

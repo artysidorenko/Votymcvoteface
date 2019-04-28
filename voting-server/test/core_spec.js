@@ -156,7 +156,8 @@ describe('App logic', () => {
           pair: [initialEntries[0], initialEntries[1]],
           round: 1
         },
-        entries: initialEntries.slice(2)
+        entries: initialEntries.slice(2),
+        winner: null
       }))
     })
   })

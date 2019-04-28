@@ -7,6 +7,8 @@ import { fromJS } from 'immutable'
 import Winner from './Winner'
 import * as actionCreators from '../action_creators'
 
+import style from './Results_style'
+
 export class Results extends React.PureComponent {
   static propTypes = {
     pair: ImmutablePropTypes.list,
@@ -27,31 +29,46 @@ export class Results extends React.PureComponent {
     } else return 0
   }
 
+  reset = () => {
+    return this.props.resetVote
+  }
+
   render () {
     return this.props.winner?
-      <Winner winner={this.props.winner} /> :
+      <div>
+        <Winner winner={this.props.winner} reset={this.reset} />
+        <button
+          className={style.resetBtn}
+          onClick={this.props.resetVote}
+        >
+          Reset To Round 1
+        </button>
+      </div>
+      :
       (
-        <div className="results">
-          <div className="display">
-            Round: {this.props.round}
-            {this.getPair() && this.getPair().map(entry =>
-              <div key={entry} className="entry">
-                <h1>{entry}</h1>
-                <div className="voteCount">
-                  {this.props.results && this.getVotes(entry)}
+        <div className={style.results}>
+          <div className={style.display}>
+            <h4 className={style.round}>Round {this.props.round}</h4>
+            <div className={style.countBox}>
+              {this.getPair() && this.getPair().map(entry =>
+                <div key={entry} className={`${style.entry} entry`}>
+                  <span className={style.voteName}>{entry}</span>
+                  <span className={style.voteCount}>
+                    {this.props.results && this.getVotes(entry)}
+                  </span>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-          <div className="admin">
+          <div className={style.admin}>
               <button
-                className="nextBtn"
+                className={`${style.nextBtn} nextBtn`}
                 onClick={this.props.next}
               >
                 Next Round
               </button>
               <button
-                className="resetBtn"
+                className={`${style.resetBtn} resetBtn`}
                 onClick={this.props.resetVote}
               >
                 Reset To Round 1

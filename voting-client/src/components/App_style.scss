@@ -9,11 +9,13 @@
   margin: auto;
   padding: 20px 0;
   max-width: 600px;
+  min-height: 600px;
 
   .App__heading {
     font-family: 'Bungee Shade', cursive;
     margin: auto;
     text-align: center;
+    padding-top: 10px;
   }
 
   .App__description {
@@ -29,11 +31,39 @@
       font-family: 'Bungee Shade', cursive;
       color: brown;
       font-size: larger;
+      border-radius: 10px;
+      padding: 5px;
+    }
+    .App__link:hover {
+      opacity: 0.5;
+      background-color: lightgrey;
     }
   }
 
   .Instructions__container {
     font-family: 'Lobster Two', sans-serif;
     margin: 0 15px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .App {
+    padding: 0;
+    .App__heading {
+      font-size: 1.2em;
+    }
+    .App__description {
+      padding: 0px 10px;
+      font-size: 1em;
+    }
+    .Instructions__container {
+      font-size: 0.9em;
+      .Instructions__heading {
+        font-size: 1.1em;
+      }
+      .Instructions__paragraph {
+        margin: 10px 0;
+      }
+    }
   }
 }

@@ -43,20 +43,6 @@ describe('Voting', () => {
     expect(selection).to.equal('Romania')
   })
 
-  it('disables buttons once user has submitted their vote', () => {
-    const component = renderIntoDocument(
-      <Voting
-        pair={fromJS(['Romania', 'United Kingdom'])}
-        hasVoted="Romania"
-      />
-    )
-    const buttons = scryRenderedDOMComponentsWithTag(component, 'button')
-
-    expect(buttons.length).to.equal(2)
-    expect(buttons[0].hasAttribute('disabled')).to.equal(true)
-    expect(buttons[1].hasAttribute('disabled')).to.equal(true)
-  })
-
   it('marks vote selection with a label', () => {
     const component = renderIntoDocument(
       <Voting
