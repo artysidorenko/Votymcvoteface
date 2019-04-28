@@ -15,7 +15,8 @@ import App from './components/App'
 
 import './style'
 
-const socket = io(`http://localhost:5000`)
+// const socket = io(`http://localhost:5000`)
+const socket = io(`https://votymcvoteface.herokuapp.com:443`)
 socket.on('state', state => {
   store.dispatch(setState(state))
 })
