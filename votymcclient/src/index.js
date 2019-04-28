@@ -1,6 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import * as serviceWorker from './serviceWorker'
 
 import { HashRouter as Router, Route } from 'react-router-dom'
 import { createStore, applyMiddleware } from 'redux'
@@ -15,7 +15,7 @@ import App from './components/App'
 
 import './style'
 
-const socket = io(`http//localhost:5000`)
+const socket = io(`http://localhost:5000`)
 socket.on('state', state => {
   store.dispatch(setState(state))
 })

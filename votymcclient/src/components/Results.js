@@ -7,7 +7,7 @@ import { fromJS } from 'immutable'
 import Winner from './Winner'
 import * as actionCreators from '../action_creators'
 
-import style from './Results_style'
+import style from './Results.module'
 
 export class Results extends React.PureComponent {
   static propTypes = {

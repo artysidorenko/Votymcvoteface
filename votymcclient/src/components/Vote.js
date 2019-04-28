@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 
-import style from './Vote_style'
+import style from './Vote.module'
 
 export default class Vote extends React.PureComponent {
   static propTypes = {
@@ -21,12 +21,12 @@ export default class Vote extends React.PureComponent {
 
   render () {
     return (
-      <div className={style.voting__container}>
-        <h4 className={style.voting__heading}>Round {this.props.round}</h4>
-        <div className={style.voting__btnBox}>
+      <div className={style.container}>
+        <h4 className={style.heading}>Round {this.props.round}</h4>
+        <div className={style.btnContainer}>
           {this.getPair().map(entry =>
             <button
-              className={style.voting__button}
+              className={style.button}
               key={entry}
               onClick={() => this.props.vote(entry)}
             >
