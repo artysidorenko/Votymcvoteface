@@ -2,7 +2,7 @@ import Server from 'socket.io'
 import { store } from '..'
 
 export default function startServer () {
-  const io = new Server().attach(5000)
+  const io = new Server().attach(process.env.PORT || 5000)
 
   // NOTE: this will send the ENTIRE state
   // should optimise for more complex app to limit data transfer
