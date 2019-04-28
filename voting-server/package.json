@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --require babel-core/register -- require ./test/test_helper.js --recursive",
+    "test": "./node_modules/mocha/bin/mocha --require babel-core/register --require ./test/test_helper.js --recursive",
     "test:watch": "npm test -- --watch",
     "start": "babel-node index.js",
     "start:watch": "nodemon index.js --exec babel-node"

@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
-import { List, Map } from 'immutable'
+import { List, Map, fromJS } from 'immutable'
 import { expect } from 'chai'
 
-import { setEntries, nextPair, vote } from '../src/core'
+import { setEntries, resetVote, nextPair, vote } from '../src/core'
 
 describe('App logic', () => {
   describe('setEntries', () => {
@@ -26,7 +26,7 @@ describe('App logic', () => {
   })
 
   describe('nextPair', () => {
-    it('moves first two items from entries to pair', () => {
+    it('moves first two items from entries to pair and initialises round 1', () => {
       const entries = List.of('Romania', 'United Kingdom', 'Spain')
       const state = Map({
         entries: entries
@@ -34,16 +34,18 @@ describe('App logic', () => {
       const nextState = nextPair(state)
       expect(nextState).to.equal(Map({
         vote: Map({
-          pair: List.of('Romania', 'United Kingdom')
+          pair: List.of('Romania', 'United Kingdom'),
+          round: 1
         }),
         entries: List.of('Spain')
       }))
     })
 
-    it('returns winner of vote back into list of entries', () => {
+    it('returns winner of vote back into list of entries and increments round', () => {
       const state = Map({
         vote: Map({
           pair: List.of('Romania', 'United Kingdom'),
+          round: 1,
           results: Map({
             Romania: 3,
             'United Kingdom': 2
@@ -54,16 +56,18 @@ describe('App logic', () => {
       const nextState = nextPair(state)
       expect(nextState).to.equal(Map({
         vote: Map({
-          pair: List.of('Spain', 'Israel')
+          pair: List.of('Spain', 'Israel'),
+          round: 2
         }),
         entries: List.of('France', 'Romania')
       }))
     })
 
-    it('return both items from pair to entries in the event of a tie', () => {
+    it('return both items from pair to entries in the event of a tie and increments round', () => {
       const state = Map({
         vote: Map({
           pair: List.of('Romania', 'United Kingdom'),
+          round: 2,
           results: Map({
             Romania: 3,
             'United Kingdom': 3
@@ -74,7 +78,8 @@ describe('App logic', () => {
       const nextState = nextPair(state)
       expect(nextState).to.equal(Map({
         vote: Map({
-          pair: List.of('Spain', 'Israel')
+          pair: List.of('Spain', 'Israel'),
+          round: 3
         }),
         entries: List.of('France', 'Romania', 'United Kingdom')
       }))
@@ -96,6 +101,64 @@ describe('App logic', () => {
         winner: 'Romania'
       }))
     })
+
+    it('erases client vote tracker on next round', () => {
+      const state = Map({
+        vote: Map({
+          pair: List.of('Romania', 'United Kingdom'),
+          round: 1,
+          results: Map({
+            Romania: 3,
+            'United Kingdom': 2
+          }),
+          votes: Map({
+            client1: 'Romania'
+          })
+        }),
+        entries: List.of('Spain', 'Israel', 'France')
+      })
+      const nextState = nextPair(state)
+      expect(nextState).to.equal(Map({
+        vote: Map({
+          pair: List.of('Spain', 'Israel'),
+          round: 2
+        }),
+        entries: List.of('France', 'Romania')
+      }))
+    })
+  })
+
+  describe('resetVote', () => {
+    it('resets entries to original set and restarts vote', () => {
+      const initialEntries = [
+        'Romania',
+        'United Kingdom',
+        'France',
+        'Israel',
+        'Russia',
+        'Spain',
+        'Portugal',
+        'Italy',
+        'Germany',
+        'Belgium',
+        'Sweden'
+      ]
+      const initialState = fromJS({
+        vote: {
+          pair: ['Romania', 'United Kingdom']
+        },
+        entries: ['France', 'Israel']
+      })
+      const nextState = resetVote(initialState)
+
+      expect(nextState).to.equal(fromJS({
+        vote: {
+          pair: [initialEntries[0], initialEntries[1]],
+          round: 1
+        },
+        entries: initialEntries.slice(2)
+      }))
+    })
   })
 
   describe('vote', () => {
@@ -103,11 +166,14 @@ describe('App logic', () => {
       const state = Map({
         pair: List.of('Romania', 'United Kingdom')
       })
-      const nextState = vote(state, 'Romania')
+      const nextState = vote(state, 'Romania', 'client1')
       expect(nextState).to.equal(Map({
         pair: List.of('Romania', 'United Kingdom'),
         results: Map({
           'Romania': 1
+        }),
+        votes: Map({
+          client1: 'Romania'
         })
       }))
     })
@@ -120,12 +186,57 @@ describe('App logic', () => {
           'United Kingdom': 3
         })
       })
-      const nextState = vote(state, 'Romania')
+      const nextState = vote(state, 'Romania', 'client1')
       expect(nextState).to.equal(Map({
         pair: List.of('Romania', 'United Kingdom'),
         results: Map({
           Romania: 3,
           'United Kingdom': 3
+        }),
+        votes: Map({
+          client1: 'Romania'
+        })
+      }))
+    })
+
+    it('prevents from voting for entry not included in current pair', () => {
+      const state = Map({
+        pair: List.of('Romania', 'United Kingdom'),
+        results: Map({
+          Romania: 2,
+          'United Kingdom': 3
+        })
+      })
+      const nextState = vote(state, 'France', 'client1')
+      expect(nextState).to.equal(Map({
+        pair: List.of('Romania', 'United Kingdom'),
+        results: Map({
+          Romania: 2,
+          'United Kingdom': 3
+        })
+      }))
+    })
+
+    it('changes existing vote when client has already voted', () => {
+      const state = Map({
+        pair: List.of('Romania', 'United Kingdom'),
+        results: Map({
+          Romania: 2,
+          'United Kingdom': 3
+        }),
+        votes: Map({
+          client1: 'Romania'
+        })
+      })
+      const nextState = vote(state, 'United Kingdom', 'client1')
+      expect(nextState).to.equal(Map({
+        pair: List.of('Romania', 'United Kingdom'),
+        results: Map({
+          Romania: 1,
+          'United Kingdom': 4
+        }),
+        votes: Map({
+          client1: 'United Kingdom'
         })
       }))
     })

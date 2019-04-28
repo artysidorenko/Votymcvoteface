@@ -6,9 +6,12 @@ import { Provider } from 'react-redux'
 import io from 'socket.io-client'
 
 import reducer from './reducer'
-import { setState } from './action_creators'
+import { setState, setClientId } from './action_creators'
+import getClientId from './client_id'
 import actionToSocket from './action_to_socket'
 import App from './components/App'
+
+import './style'
 
 const socket = io(`${location.protocol}//${location.hostname}:5000`)
 socket.on('state', state => {
@@ -20,6 +23,7 @@ const createStoreWithMiddleware = applyMiddleware(
 )(createStore)
 
 const store = createStoreWithMiddleware(reducer)
+store.dispatch(setClientId(getClientId()))
 
 const routes = <Route component={App} />
 

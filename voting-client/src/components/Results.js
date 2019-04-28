@@ -12,7 +12,9 @@ export class Results extends React.PureComponent {
     pair: ImmutablePropTypes.list,
     results: ImmutablePropTypes.map,
     winner: PropTypes.string,
-    next: PropTypes.func
+    next: PropTypes.func.isRequired,
+    round: PropTypes.number,
+    resetVote: PropTypes.func.isRequired
   }
 
   getPair () {
@@ -31,6 +33,7 @@ export class Results extends React.PureComponent {
       (
         <div className="results">
           <div className="display">
+            Round: {this.props.round}
             {this.getPair() && this.getPair().map(entry =>
               <div key={entry} className="entry">
                 <h1>{entry}</h1>
@@ -45,7 +48,13 @@ export class Results extends React.PureComponent {
                 className="nextBtn"
                 onClick={this.props.next}
               >
-                Next
+                Next Round
+              </button>
+              <button
+                className="resetBtn"
+                onClick={this.props.resetVote}
+              >
+                Reset To Round 1
               </button>
           </div>
         </div>
@@ -57,7 +66,8 @@ function mapStateToProps (state) {
   return {
     pair: fromJS(state.getIn(['vote', 'pair'])),
     results: fromJS(state.getIn(['vote', 'results'])),
-    winner: state.get('winner')
+    winner: state.get('winner'),
+    round: state.getIn(['vote', 'round'])
   }
 }
 

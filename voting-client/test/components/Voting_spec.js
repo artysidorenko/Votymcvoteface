@@ -8,7 +8,7 @@ import {
   Simulate
 } from 'react-dom/test-utils'
 import { expect } from 'chai'
-import { List } from 'immutable'
+import { List, fromJS } from 'immutable'
 
 import { Voting } from '../../src/components/Voting'
 
@@ -17,7 +17,7 @@ describe('Voting', () => {
   it('renders a pair of buttons', () => {
     const component = renderIntoDocument(
       <Voting
-        pair={['Romania', 'United Kingdom']}
+        pair={fromJS(['Romania', 'United Kingdom'])}
       />
     )
     const buttons = scryRenderedDOMComponentsWithTag(component, 'button')
@@ -33,7 +33,7 @@ describe('Voting', () => {
 
     const component = renderIntoDocument(
       <Voting
-        pair={['Romania', 'United Kingdom']}
+        pair={fromJS(['Romania', 'United Kingdom'])}
         vote={vote}
       />
     )
@@ -46,7 +46,7 @@ describe('Voting', () => {
   it('disables buttons once user has submitted their vote', () => {
     const component = renderIntoDocument(
       <Voting
-        pair={['Romania', 'United Kingdom']}
+        pair={fromJS(['Romania', 'United Kingdom'])}
         hasVoted="Romania"
       />
     )
@@ -60,7 +60,7 @@ describe('Voting', () => {
   it('marks vote selection with a label', () => {
     const component = renderIntoDocument(
       <Voting
-        pair={['Romania', 'United Kingdom']}
+        pair={fromJS(['Romania', 'United Kingdom'])}
         hasVoted="Romania"
       />
     )
@@ -84,6 +84,8 @@ describe('Voting', () => {
   })
 
   it('behaves as a pure component, NOT re-rendering with mutated props', () => {
+    // eslint-disable-next-line no-console
+    console.log('Ignore Prop Type Warning: need to use plain JS array for the test to work')
     const pair = ['Romania', 'United Kingdom']
     const container = document.createElement('div')
     // In future should replace with react test renderer?

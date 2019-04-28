@@ -45,11 +45,28 @@ describe('Results', () => {
     expect(nextClicked).to.equal(true)
   })
 
+  it('invokes resetVote() when the reset button is clicked', () => {
+    let resetClicked = false
+    const resetVote = () => resetClicked = true
+
+    const pair = List.of('Romania', 'United Kingdom')
+    const component = renderIntoDocument(
+      <Results
+        pair={pair}
+        results={Map()}
+        resetVote={resetVote}
+      />
+    )
+    Simulate.click(findRenderedDOMComponentWithClass(component, 'resetBtn'))
+
+    expect(resetClicked).to.equal(true)
+  })
+
   it('displays the winner once there is a winner', () => {
     const component = renderIntoDocument(
       <Results
         winner="Romania"
-        pair={['Romania', 'United Kingdom']}
+        pair={List.of('Romania', 'United Kingdom')}
         results={Map()}
       />
     )

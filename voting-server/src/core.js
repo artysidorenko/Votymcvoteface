@@ -5,40 +5,56 @@ export function setEntries (state, entries) {
 }
 
 export function nextPair (state) {
-  console.log('next input state:\n', state)
   const entries = state.get('entries').concat(getWinners(state.get('vote')))
   if (entries.size === 1) {
     return state.remove('vote')
       .remove('entries')
       .set('winner', entries.first())
   } else {
-    console.log('next output state w/o winner:\n', state.merge({
-      vote: Map({
-        pair: entries.take(2)
-      }),
-      entries: entries.skip(2)
-    }))
-
     return state.merge({
       vote: Map({
-        pair: entries.take(2)
+        pair: entries.take(2),
+        round: state.getIn(['vote', 'round'], 0) + 1
       }),
       entries: entries.skip(2)
     })
   }
 }
 
-export function vote (voteState, selection) {
-  console.log('vote output state:\n', voteState.updateIn(
-    ['results', selection],
-    0,
-    results => results + 1
-  ))
-  return voteState.updateIn(
-    ['results', selection],
-    0,
-    results => results + 1
-  )
+export function resetVote (state) {
+  const entries = List(require('../entries.json'))
+  return Map({
+    vote: Map({
+      pair: entries.take(2),
+      round: 1
+    }),
+    entries: entries.skip(2)
+  })
+}
+
+export function vote (voteState, selection, clientId) {
+  const pair = voteState.get('pair')
+  if (pair.includes(selection)) {
+    let voteStateReset = voteState
+    const previousVote = voteState.getIn(['votes', clientId])
+    if (previousVote) {
+      voteStateReset = voteState
+        .updateIn(['results', previousVote], result => result - 1)
+        .removeIn(['votes'], clientId)
+    }
+    return voteStateReset
+      .updateIn(
+        ['results', selection],
+        0,
+        results => results + 1
+      )
+      .setIn(
+        ['votes', clientId],
+        selection
+      )
+  } else {
+    return voteState
+  }
 }
 
 export const INITIAL_STATE = Map()

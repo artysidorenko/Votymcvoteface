@@ -11,6 +11,13 @@ export function setState(state) {
   }
 }
 
+export function setClientId(clientId) {
+  return {
+    type: 'SET_CLIENT_ID',
+    clientId
+  }
+}
+
 export function vote(selection) {
   return {
     meta: { remote: true },
@@ -24,4 +31,11 @@ export function next() {
     meta: { remote: true },
     type: 'NEXT'
   };
+}
+
+export function resetVote() {
+  return {
+    meta: {remote: true},
+    type: 'RESET'
+  }
 }
