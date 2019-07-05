@@ -11,17 +11,17 @@ import { expect } from 'chai'
 
 describe('Results', () => {
 
-  it('renders entries with # of votes or zero', () => {
+  it('renders contestants with # of votes or zero', () => {
     const pair = List.of('Romania', 'United Kingdom')
     const results = Map({ 'Romania': 5 })
     const component = renderIntoDocument(
       <Results pair={pair} results={results} />
     )
 
-    const entries = scryRenderedDOMComponentsWithClass(component, 'entry')
-    const [ RO, UK ] = entries.map(e => e.textContent)
+    const contestants = scryRenderedDOMComponentsWithClass(component, 'entry')
+    const [ RO, UK ] = contestants.map(e => e.textContent)
 
-    expect(entries.length).to.equal(2)
+    expect(contestants.length).to.equal(2)
     expect(RO).to.contain('Romania')
     expect(RO).to.contain('5')
     expect(UK).to.contain('United Kingdom')

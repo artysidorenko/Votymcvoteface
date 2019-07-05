@@ -19,11 +19,7 @@ const testURL = 'http://localhost:5000'
 const liveURL = 'https://votymcvoteface.herokuapp.com:443'
 
 const socket = process.env.NODE_ENV === 'development'? io(testURL) : io(liveURL)
-console.log(process.env.NODE_ENV)
-console.log('socket created')
 socket.on('state', state => {
-  console.log('received new state from server')
-  console.log(state)
   store.dispatch(setState(state))
 })
 
